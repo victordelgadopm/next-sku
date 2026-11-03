@@ -50,12 +50,31 @@ a short pace between pages, and record what you read in notes instead of
 | `brand "Brand"` | search the brand name and keep that brand's listings |
 | `autocomplete "prefix"` | type the prefix into Amazon's search box without pressing Enter and read the suggestions |
 
-Use smaller limits in this mode (about 5 keywords, 3 to 4 competitors, 3
-product pages, 6 opportunities). Skip `findings.json` and the renderer:
-write the report straight into the chat using the same sections (headline,
-top picks, gaps to fill, products to expand into, competitive landscape,
-how this was built). If Amazon shows a "confirm you're human" page, ask the
-user to solve it, then continue.
+This mode is lighter than the scripts, but it has guardrails (the same ones
+as `chrome-edition/next-sku/SKILL.md`):
+
+- **Minimums, not caps.** At least 6 shopper keywords, 4 competitor brands,
+  8 competitor product pages read in full, 3 autocomplete prefixes plus one
+  per candidate, and a search check and an autocomplete check for every
+  candidate. Report 3 to 6 gaps and 3 to 6 products to expand into. If a
+  minimum cannot be met, say which one and why.
+- **Compact reads.** Read pages with in-page JavaScript that returns one
+  line per listing (ASIN, brand, start of title, price, size or count,
+  rating, ratings count, bought in past month, sponsored). Never read a
+  whole Amazon page as text: it can run to tens of thousands of tokens and
+  freeze the tab. Write "not captured" for anything you could not read.
+- **Demand gate.** A candidate without both checks is "Unvalidated", not
+  Strong or Moderate.
+- **Reviews.** Logged out, the full review list is hidden. Use "Customers
+  say" and visible snippets, and say that 1 to 3 star reviews were not read.
+- **Check before reporting.** Every number must appear in your notes, and
+  the coverage counts must match what you actually did.
+
+Skip `findings.json` and the renderer: write the report straight into the
+chat using the same sections (headline, top picks, data coverage, gaps to
+fill, products to expand into, competitive landscape, how this was built).
+If Amazon shows a "confirm you're human" page, ask the user to solve it,
+then continue.
 
 Always pass several items to one command instead of calling it many times.
 One call opens one browser window and reuses it, which is faster and calmer
