@@ -63,6 +63,20 @@ Then install the browser library once:
 python -m pip install playwright
 ```
 
+### No install: Claude in Chrome
+
+Don't use Claude Code? If you have the Claude in Chrome extension, start a
+new Claude chat and paste:
+
+> Using Claude in Chrome, run Next SKU on ASIN B0XXXXXXXX. Read the method
+> at https://github.com/victordelgadopm/next-sku/blob/main/skills/next-sku/SKILL.md
+> and follow its steps by browsing Amazon in Chrome yourself instead of
+> running the Python scripts. Don't log in or click ads. Give me the gaps
+> to fill and the products to expand into, with the evidence for each.
+
+Claude browses Amazon in your own Chrome and writes the report in the chat.
+This version is lighter (fewer pages read) and has no HTML report.
+
 ## Use it
 
 Just ask Claude in plain words:

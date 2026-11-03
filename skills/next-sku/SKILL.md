@@ -36,6 +36,27 @@ Python 3).
 | `NSKU brand "Brand" ["Brand" ...] --out RUN` | That brand's listings found by searching its name (2 pages) |
 | `NSKU autocomplete "prefix" [...] [--expand] --out RUN` | Amazon search suggestions; `--expand` also tries "prefix a" to "prefix z" |
 
+### No Python? Use browser tools instead
+
+If you can't run scripts but you do have a browser tool (for example Claude
+in Chrome), follow the same steps by browsing yourself. Open new tabs, keep
+a short pace between pages, and record what you read in notes instead of
+`RUN/raw/`:
+
+| Script command | Browser equivalent |
+|---|---|
+| `product ASIN` | open `https://www.amazon.com/dp/ASIN`, scroll to load carousels and reviews, read the fields listed above |
+| `search "kw"` | open `https://www.amazon.com/s?k=kw` (spaces as `+`) and read page one |
+| `brand "Brand"` | search the brand name and keep that brand's listings |
+| `autocomplete "prefix"` | type the prefix into Amazon's search box without pressing Enter and read the suggestions |
+
+Use smaller limits in this mode (about 5 keywords, 3 to 4 competitors, 3
+product pages, 6 opportunities). Skip `findings.json` and the renderer:
+write the report straight into the chat using the same sections (headline,
+top picks, gaps to fill, products to expand into, competitive landscape,
+how this was built). If Amazon shows a "confirm you're human" page, ask the
+user to solve it, then continue.
+
 Always pass several items to one command instead of calling it many times.
 One call opens one browser window and reuses it, which is faster and calmer
 for Amazon. Every call also saves full JSON under `RUN/raw/`, so read those
