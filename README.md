@@ -2,8 +2,9 @@
 
 **Find the products to grow your brand on Amazon.**
 
-Enter one ASIN. Next SKU maps your catalog and competitors, then shows the
-gaps to fill and the new products worth launching.
+Enter one ASIN. Next SKU maps your whole catalog and your competitors, then
+shows what to fix, which gaps to fill and which new products are worth
+launching.
 
 Next SKU is a [Claude Code](https://claude.com/claude-code) skill. Claude
 drives a real Chrome window on your own computer, reads public Amazon pages
@@ -12,12 +13,17 @@ report.
 
 ## What you get
 
-A one-page report (`report.html`) with two parts:
+A one-page report (`report.html`) with three parts:
 
-1. **Gaps to fill.** Product types, formats, sizes, pack counts, bundles,
+1. **Fix or promote what you already sell.** Products you have that trail
+   competitors on price, traction or quality.
+2. **Gaps to fill.** Product types, formats, sizes, pack counts, bundles,
    variants and price tiers your competitors sell and you don't.
-2. **Products to expand into.** Nearby products your shoppers already buy
-   together, search for, or ask for in reviews, where your brand could grow.
+3. **Products to expand into.** New product lines your shoppers already buy,
+   search for, or ask for in reviews, grown from your whole catalog.
+
+Your catalog is mapped first, and nothing you already sell is ever listed as
+a gap or a new product.
 
 Every opportunity shows the evidence behind it: what shoppers type into
 Amazon search, how much page one is selling, review depth, price band, how
@@ -33,12 +39,12 @@ From your starting ASIN, Next SKU:
 
 1. Reads your product page: category, rank, variations, bought-together
    items and reviews.
-2. Maps your current catalog on Amazon.
+2. Maps your whole catalog on Amazon (every product line, pack and size).
 3. Builds a shopper keyword set from Amazon autocomplete.
 4. Searches those keywords and finds the brands that keep showing up.
 5. Reads competitor catalogs and best sellers.
-6. Compares catalogs to find gaps, and scans related products and reviews
-   for expansion ideas.
+6. Compares catalogs to separate what to fix from what is missing, and scans
+   related products and reviews for expansion ideas.
 7. Validates each idea with live demand signals.
 8. Writes the report.
 
@@ -72,10 +78,11 @@ new Claude chat and paste:
 > at https://github.com/victordelgadopm/next-sku/blob/main/skills/next-sku/SKILL.md
 > and follow its steps by browsing Amazon in Chrome yourself instead of
 > running the Python scripts. Don't log in or click ads. Give me the gaps
-> to fill and the products to expand into, with the evidence for each.
+> to fix, fill and expand into, with the evidence for each.
 
 Claude browses Amazon in your own Chrome and writes the report in the chat.
-This version is lighter (fewer pages read) and has no HTML report.
+This version is lighter (smaller minimums) and has no HTML report. It
+follows the same method and the same three outputs.
 
 **Want it saved to your Claude account?** Download
 [`chrome-edition/next-sku.zip`](chrome-edition/next-sku.zip), then in Claude
@@ -106,7 +113,23 @@ folder where you started Claude Code, with all raw page data in `raw/`.
 - **Signals, not sales data.** Autocomplete, "bought in past month", review
   counts and best sellers rank are public proxies. Margins and sourcing
   costs aren't included. The report lays out the evidence; you make the call.
-- **Amazon.com (US)** only for now.
+- **Amazon.com (US)** only for now. Prices and availability depend on the
+  day and delivery location, so the report records both.
+- **Your catalog is a lower bound.** Search can miss listings that don't
+  lead with your brand name. The report says how complete it is.
+
+## Depth levels
+
+| Level | How | Good for |
+|---|---|---|
+| Light | Claude in Chrome, report in chat | A fast first read of one ASIN |
+| Standard | Claude Code, scripts and HTML report | Repeatable runs with saved raw data |
+| Deep | Custom build on the same method | Storefront crawls, review mining, monitoring, exports |
+
+The method, the `findings.json` schema and the report renderer are separate
+on purpose, so a deeper build reuses them. Other retailers (Target, Walmart)
+would be added as one adapter per platform, each tested live. They are not
+supported today.
 
 ## Files
 

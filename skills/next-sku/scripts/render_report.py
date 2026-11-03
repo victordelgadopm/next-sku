@@ -106,6 +106,7 @@ def render(f: dict) -> str:
     opps = f.get("opportunities") or []
     gaps = [o for o in opps if (o.get("type") or "").lower() == "gap"]
     expand = [o for o in opps if (o.get("type") or "").lower() == "expand"]
+    fixes = [o for o in opps if (o.get("type") or "").lower() == "fix"]
     mode = (f.get("mode") or "both").lower()
     catalog = f.get("catalog") or {}
     comps = f.get("competitors") or []
@@ -113,6 +114,10 @@ def render(f: dict) -> str:
     generated = f.get("generated_at") or datetime.now().strftime("%Y-%m-%d %H:%M")
 
     n = 0
+    fix_html = ""
+    for o in fixes:
+        n += 1
+        fix_html += render_opportunity(o, n)
     gap_html = ""
     for o in gaps:
         n += 1
@@ -129,24 +134,40 @@ def render(f: dict) -> str:
         f"<td>{e(c.get('price_range'))}</td><td>{e(c.get('strengths'))}</td></tr>"
         for c in comps
     )
-    cat_rows = "".join(
-        f'<tr><td><a href="{amz(p.get("asin"))}" target="_blank" rel="noopener">{e(p.get("asin"))}</a></td>'
-        f"<td>{e(p.get('title'))}</td><td>{e(p.get('price'))}</td><td>{e(p.get('ratings'))}</td></tr>"
-        for p in (catalog.get("products") or [])
+    cat_products = sorted(
+        catalog.get("products") or [], key=lambda p: (p.get("line") or "").lower()
     )
+    cat_rows = "".join(
+        f"<tr><td>{e(p.get('line'))}</td>"
+        f'<td><a href="{amz(p.get("asin"))}" target="_blank" rel="noopener">{e(p.get("asin"))}</a></td>'
+        f"<td>{e(p.get('title'))}</td><td>{e(p.get('pack'))}</td><td>{e(p.get('price'))}</td>"
+        f"<td>{e(p.get('rating'))}</td><td>{e(p.get('ratings'))}</td><td>{e(p.get('bought'))}</td></tr>"
+        for p in cat_products
+    )
+    min_rows = "".join(
+        f"<tr><td>{e(m.get('item'))}</td><td>{e(m.get('floor'))}</td><td>{e(m.get('done'))}</td></tr>"
+        for m in (cov.get("minimums") or [])
+    )
+    not_captured = cov.get("not_captured") or []
     top_picks = "".join(f"<li>{e(t)}</li>" for t in (f.get("top_picks") or [])[:3])
     blocked = cov.get("blocked") or []
 
     sections = []
+    if mode in ("gaps", "both") and (fixes or mode == "both"):
+        sections.append(
+            f"""<section id="fix"><div class="sec-head"><span class="kicker">Part 1</span><h2>Fix or promote what you already sell</h2>
+            <p>Products you have that trail the competition. Improve these before adding new ones.</p></div>
+            {fix_html or '<p class="empty">Nothing in your current catalog clearly trails its competitors.</p>'}</section>"""
+        )
     if mode in ("gaps", "both"):
         sections.append(
-            f"""<section id="gaps"><div class="sec-head"><span class="kicker">Mode 1</span><h2>Gaps to fill</h2>
+            f"""<section id="gaps"><div class="sec-head"><span class="kicker">Part 2</span><h2>Gaps to fill</h2>
             <p>Products, sizes, packs and price points your competitors sell that your catalog doesn't.</p></div>
             {gap_html or '<p class="empty">No clear gaps found in this run.</p>'}</section>"""
         )
     if mode in ("expand", "both"):
         sections.append(
-            f"""<section id="expand"><div class="sec-head"><span class="kicker">Mode 2</span><h2>Products to expand into</h2>
+            f"""<section id="expand"><div class="sec-head"><span class="kicker">Part 3</span><h2>Products to expand into</h2>
             <p>Nearby products your customers already buy, search for or ask for, where your brand could grow.</p></div>
             {exp_html or '<p class="empty">No clear expansion paths found in this run.</p>'}</section>"""
         )
@@ -224,7 +245,7 @@ footer {{ margin-top:40px; color:var(--muted); font-size:13px; border-top:1px so
 }}
 </style></head><body><div class="wrap">
 <div class="top"><div class="logo">Next <span>SKU</span></div>
-<div class="meta">{e(generated)}<br>{e(len(opps))} opportunities{(" · " + e(cov.get("pages_read")) + " pages read") if cov.get("pages_read") else ""}</div></div>
+<div class="meta">{e(generated)}{("<br>Data as of " + e(f.get("data_as_of"))) if f.get("data_as_of") else ""}<br>{e(len(opps))} opportunities{(" · " + e(cov.get("pages_read")) + " pages read") if cov.get("pages_read") else ""}</div></div>
 
 <div class="hero">
   <div>
@@ -247,6 +268,7 @@ footer {{ margin-top:40px; color:var(--muted); font-size:13px; border-top:1px so
 </div>
 
 <nav class="jump">
+  {'<a href="#fix">Fix or promote (' + str(len(fixes)) + ')</a>' if mode in ("gaps","both") and (fixes or mode == "both") else ''}
   {'<a href="#gaps">Gaps to fill (' + str(len(gaps)) + ')</a>' if mode in ("gaps","both") else ''}
   {'<a href="#expand">Products to expand into (' + str(len(expand)) + ')</a>' if mode in ("expand","both") else ''}
   <a href="#landscape">Competitive landscape</a>
@@ -259,7 +281,7 @@ footer {{ margin-top:40px; color:var(--muted); font-size:13px; border-top:1px so
 <p>{e(catalog.get("notes") or "Brands that showed up most often across your category searches.")}</p></div>
 <div class="tablewrap"><table><thead><tr><th>Brand</th><th>Tier</th><th>Products seen</th><th>Price range</th><th>Where they win</th></tr></thead>
 <tbody>{comp_rows or '<tr><td colspan=5 class=empty>No competitor data.</td></tr>'}</tbody></table></div>
-{('<h3 style="margin-top:28px">Your catalog as seen on Amazon</h3><div class="tablewrap"><table><thead><tr><th>ASIN</th><th>Product</th><th>Price</th><th>Ratings</th></tr></thead><tbody>' + cat_rows + '</tbody></table></div>') if cat_rows else ''}
+{('<h3 style="margin-top:28px">Your catalog as seen on Amazon</h3><div class="tablewrap"><table><thead><tr><th>Line</th><th>ASIN</th><th>Product</th><th>Pack</th><th>Price</th><th>Rating</th><th>Ratings</th><th>Bought past month</th></tr></thead><tbody>' + cat_rows + '</tbody></table></div><p class="muted">A lower bound: listings the run could not find are not shown. Bought past month is a floor bucket, not a count.</p>') if cat_rows else ''}
 </section>
 
 <footer id="method">
@@ -269,7 +291,9 @@ Demand signals such as autocomplete, "bought in past month", review counts and b
 Margins and sourcing costs are not included. The report lays out the evidence; you make the call.
 {('<br><br><strong>Searches run:</strong> ' + e(", ".join(cov.get("searches") or []))) if cov.get("searches") else ''}
 {('<br><strong>Could not read:</strong> ' + e(", ".join(blocked))) if blocked else ''}
+{('<br><strong>Not captured:</strong> ' + e(", ".join(not_captured))) if not_captured else ''}
 {('<br>' + e(cov.get("notes"))) if cov.get("notes") else ''}
+{('<div class="tablewrap" style="margin-top:12px"><table><thead><tr><th>Minimum</th><th>Floor</th><th>Done</th></tr></thead><tbody>' + min_rows + '</tbody></table></div>') if min_rows else ''}
 </footer>
 </div></body></html>"""
 
