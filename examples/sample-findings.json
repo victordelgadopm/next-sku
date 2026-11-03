@@ -1,42 +1,230 @@
 {
   "mode": "both",
   "generated_at": "Sample report (illustrative data)",
-  "headline": "Illustrative sample: two gaps to fill and one line to grow into",
-  "summary": "This sample uses made-up brands and ASINs to show the report format. In a real run every number comes from public Amazon pages read during that run. Here, a matcha brand sells one ceremonial powder in two sizes while its closest competitors sell sticks, latte mixes and starter kits.",
+  "headline": "Illustrative sample: one product to fix, two gaps to fill and one line to grow into",
+  "summary": "This sample uses made-up brands and ASINs to show the report format. In a real run every number comes from public Amazon pages read during that run. Here, a matcha brand sells ceremonial powder in two sizes and a whisk, while its closest competitors sell sticks, latte mixes and starter kits.",
   "top_picks": [
+    "Fix the 100g tin: it costs more per gram than Leafline and Kyoto Hill with fewer ratings",
     "Single-serve stick packs: 4 of 5 competitors sell them",
-    "Unsweetened latte mix: shoppers ask for it in reviews",
-    "Matcha starter kit: whisk and bowl show up in bought-together on every top listing"
+    "Unsweetened latte mix: shoppers ask for it in reviews"
   ],
-  "seed": {"asin": "B0SAMPLE01", "title": "Sample Brand Ceremonial Matcha Powder, 30g", "brand": "Sample Brand", "price": "$24.99", "rating": "4.6 out of 5 stars", "category": "Grocery > Beverages > Tea > Matcha", "bsr": "#58 in Matcha"},
-  "catalog": {"notes": "Sample data. A real run lists the brand's listings found on Amazon.", "products": [
-    {"asin": "B0SAMPLE01", "title": "Ceremonial Matcha Powder, 30g", "price": "$24.99", "ratings": "2,140"},
-    {"asin": "B0SAMPLE02", "title": "Ceremonial Matcha Powder, 100g", "price": "$54.99", "ratings": "640"}
-  ]},
+  "seed": {
+    "asin": "B0SAMPLE01",
+    "title": "Sample Brand Ceremonial Matcha Powder, 30g",
+    "brand": "Sample Brand",
+    "price": "$24.99",
+    "rating": "4.6 out of 5 stars",
+    "category": "Grocery > Beverages > Tea > Matcha",
+    "bsr": "#58 in Matcha"
+  },
+  "catalog": {
+    "notes": "Sample data. A real run lists every product line found through the Store page and brand searches, and treats the list as a lower bound.",
+    "products": [
+      {
+        "line": "Ceremonial matcha powder",
+        "asin": "B0SAMPLE01",
+        "title": "Ceremonial Matcha Powder, 30g",
+        "pack": "30g tin",
+        "price": "$24.99",
+        "rating": "4.6",
+        "ratings": "2,140",
+        "bought": "1K+"
+      },
+      {
+        "line": "Ceremonial matcha powder",
+        "asin": "B0SAMPLE02",
+        "title": "Ceremonial Matcha Powder, 100g",
+        "pack": "100g pouch",
+        "price": "$54.99",
+        "rating": "4.5",
+        "ratings": "640",
+        "bought": "100+"
+      },
+      {
+        "line": "Bamboo whisk",
+        "asin": "B0SAMPLE03",
+        "title": "Bamboo Matcha Whisk",
+        "pack": "single",
+        "price": "$11.99",
+        "rating": "4.4",
+        "ratings": "380",
+        "bought": "50+"
+      }
+    ]
+  },
   "competitors": [
-    {"brand": "Leafline", "tier": "Primary", "products_seen": 16, "price_range": "$12 to $42", "strengths": "Sticks, latte mixes, culinary grade", "why": "Ranked in 6 of 7 searches"},
-    {"brand": "Kyoto Hill", "tier": "Primary", "products_seen": 11, "price_range": "$18 to $65", "strengths": "Premium tier, gift kits", "why": "Ranked in 5 of 7 searches"},
-    {"brand": "Daybrew", "tier": "Secondary", "products_seen": 7, "price_range": "$9 to $22", "strengths": "Budget tier, multi-packs", "why": "Ranked in 2 searches"}
+    {
+      "brand": "Leafline",
+      "tier": "Primary",
+      "products_seen": 16,
+      "price_range": "$12 to $42",
+      "strengths": "Sticks, latte mixes, culinary grade",
+      "why": "Ranked in 6 of 7 searches"
+    },
+    {
+      "brand": "Kyoto Hill",
+      "tier": "Primary",
+      "products_seen": 11,
+      "price_range": "$18 to $65",
+      "strengths": "Premium tier, gift kits",
+      "why": "Ranked in 5 of 7 searches"
+    },
+    {
+      "brand": "Daybrew",
+      "tier": "Secondary",
+      "products_seen": 7,
+      "price_range": "$9 to $22",
+      "strengths": "Budget tier, multi-packs",
+      "why": "Ranked in 2 searches"
+    }
   ],
   "opportunities": [
-    {"type": "gap", "name": "Single-serve stick packs", "what": "Launch a 30-count box of 1g ceremonial sticks for on-the-go shoppers.",
-     "demand": {"level": "strong", "autocomplete_terms": ["matcha sticks", "matcha packets single serve"], "search_results": "over 1,000 results", "bought_past_month": "3 of top 10 show 1K+ bought", "sponsored_share": "5 of 22 sponsored"},
-     "price_band": "$14 to $26", "fit": "strong", "competitors_selling": ["Leafline", "Kyoto Hill", "Daybrew"],
-     "evidence": ["4 of 5 competitors sell a stick format", "No stick listing from the seller"],
-     "customer_signals": ["Wish this came in travel packets"],
-     "differentiation": "Ceremonial grade sticks are rare; most are culinary grade.", "risks": "Packaging cost per serving is higher.",
-     "example_listings": [{"asin": "B0SAMPLE11", "brand": "Leafline", "price": "$18.99"}]},
-    {"type": "gap", "name": "Unsweetened latte mix", "what": "Add a ready latte blend with no added sugar.",
-     "demand": {"level": "moderate", "autocomplete_terms": ["matcha latte mix unsweetened"], "search_results": "over 400 results", "top_review_counts": "Top 3: 5,100 / 1,900 / 620 ratings"},
-     "price_band": "$15 to $24", "fit": "strong", "competitors_selling": ["Leafline", "Daybrew"],
-     "evidence": ["Most latte mixes on page one list sugar first"],
-     "customer_signals": ["Too sweet, I want just matcha and milk powder"],
-     "differentiation": "Own the clean label angle.", "risks": "Crowded with sweetened mixes."},
-    {"type": "expand", "name": "Matcha starter kit", "what": "Bundle powder, bamboo whisk and bowl as one gift ready listing.",
-     "demand": {"level": "strong", "autocomplete_terms": ["matcha kit", "matcha set with whisk"], "bought_past_month": "2 of top 10 show 1K+ bought"},
-     "price_band": "$35 to $60", "fit": "moderate", "competitors_selling": ["Kyoto Hill"],
-     "evidence": ["Whisk appears in bought-together on 5 of 6 top listings"],
-     "differentiation": "Lead with the powder quality competitors' kits skimp on.", "risks": "Fragile items raise return rates."}
+    {
+      "type": "fix",
+      "name": "100g ceremonial matcha pouch",
+      "what": "Reprice or re-pitch the 100g pouch, which trails the same size from two competitors.",
+      "seller_asins": [
+        "B0SAMPLE02"
+      ],
+      "demand": {
+        "level": "moderate",
+        "autocomplete_terms": [
+          "matcha powder 100g"
+        ],
+        "top_review_counts": "Seller 640 vs 3,900 and 2,300 ratings",
+        "bought_past_month": "Seller 100+ vs 1K+ for both competitors"
+      },
+      "price_band": "$38 to $55",
+      "fit": "strong",
+      "competitors_selling": [
+        "Leafline",
+        "Kyoto Hill"
+      ],
+      "evidence": [
+        "Seller: $54.99 for 100g. Leafline: $39.99. Kyoto Hill: $44.99",
+        "Seller has 640 ratings against 3,900 and 2,300"
+      ],
+      "customer_signals": [
+        "Good taste but pricey for the size"
+      ],
+      "differentiation": "Match the value story with a clear grade and origin claim, or test a lower price.",
+      "risks": "Margin pressure if the price drops.",
+      "example_listings": [
+        {
+          "asin": "B0SAMPLE21",
+          "brand": "Leafline",
+          "price": "$39.99"
+        }
+      ]
+    },
+    {
+      "type": "gap",
+      "name": "Single-serve stick packs",
+      "what": "Launch a 30-count box of 1g ceremonial sticks for on-the-go shoppers.",
+      "demand": {
+        "level": "strong",
+        "autocomplete_terms": [
+          "matcha sticks",
+          "matcha packets single serve"
+        ],
+        "search_results": "over 1,000 results",
+        "bought_past_month": "3 of top 10 show 1K+ bought",
+        "sponsored_share": "5 of 22 sponsored"
+      },
+      "price_band": "$14 to $26",
+      "fit": "strong",
+      "competitors_selling": [
+        "Leafline",
+        "Kyoto Hill",
+        "Daybrew"
+      ],
+      "evidence": [
+        "4 of 5 competitors sell a stick format",
+        "No stick listing from the seller"
+      ],
+      "customer_signals": [
+        "Wish this came in travel packets"
+      ],
+      "differentiation": "Ceremonial grade sticks are rare; most are culinary grade.",
+      "risks": "Packaging cost per serving is higher.",
+      "example_listings": [
+        {
+          "asin": "B0SAMPLE11",
+          "brand": "Leafline",
+          "price": "$18.99"
+        }
+      ],
+      "catalog_checked": "Catalog rows 1 to 3; no matching format"
+    },
+    {
+      "type": "gap",
+      "name": "Unsweetened latte mix",
+      "what": "Add a ready latte blend with no added sugar.",
+      "demand": {
+        "level": "moderate",
+        "autocomplete_terms": [
+          "matcha latte mix unsweetened"
+        ],
+        "search_results": "over 400 results",
+        "top_review_counts": "Top 3: 5,100 / 1,900 / 620 ratings"
+      },
+      "price_band": "$15 to $24",
+      "fit": "strong",
+      "competitors_selling": [
+        "Leafline",
+        "Daybrew"
+      ],
+      "evidence": [
+        "Most latte mixes on page one list sugar first"
+      ],
+      "customer_signals": [
+        "Too sweet, I want just matcha and milk powder"
+      ],
+      "differentiation": "Own the clean label angle.",
+      "risks": "Crowded with sweetened mixes.",
+      "catalog_checked": "Catalog rows 1 to 3; no matching format"
+    },
+    {
+      "type": "expand",
+      "name": "Matcha starter kit",
+      "what": "Bundle powder, bamboo whisk and bowl as one gift ready listing.",
+      "demand": {
+        "level": "strong",
+        "autocomplete_terms": [
+          "matcha kit",
+          "matcha set with whisk"
+        ],
+        "bought_past_month": "2 of top 10 show 1K+ bought"
+      },
+      "price_band": "$35 to $60",
+      "fit": "moderate",
+      "competitors_selling": [
+        "Kyoto Hill"
+      ],
+      "evidence": [
+        "Whisk appears in bought-together on 5 of 6 top listings"
+      ],
+      "differentiation": "Lead with the powder quality competitors' kits skimp on.",
+      "risks": "Fragile items raise return rates.",
+      "grows_from": "Ceremonial matcha powder",
+      "catalog_checked": "Catalog rows 1 to 3; whisk sold alone, no kit"
+    }
   ],
-  "coverage": {"pages_read": 0, "searches": [], "notes": "Illustrative sample only. Brands, ASINs and numbers are made up."}
+  "coverage": {
+    "pages_read": 0,
+    "searches": [],
+    "notes": "Illustrative sample only. Brands, ASINs and numbers are made up.",
+    "not_captured": [
+      "Best sellers rank on most pages",
+      "1 to 3 star reviews (hidden when logged out)"
+    ],
+    "minimums": [
+      {
+        "item": "Competitor product pages read in full",
+        "floor": 8,
+        "done": "sample"
+      }
+    ]
+  },
+  "data_as_of": "Sample (illustrative), delivering to a US address"
 }

@@ -8,6 +8,7 @@ rather than guessing.
 {
   "mode": "both",                       // "gaps" | "expand" | "both"
   "generated_at": "2026-11-03 10:42",
+  "data_as_of": "2026-11-03, delivering to 10001",   // run date and delivery location Amazon showed
   "headline": "Three gaps and two new lines worth testing next",
   "summary": "Two or three sentences: what the brand sells today, who it competes with, and the biggest takeaway.",
   "top_picks": [                        // up to 3, one line each
@@ -25,9 +26,18 @@ rather than guessing.
   },
 
   "catalog": {
-    "notes": "One sentence on how the catalog was read and any limits.",
+    "notes": "One sentence on how the catalog was read and any limits. The catalog is a lower bound.",
     "products": [
-      { "asin": "B0XXXXXXXX", "title": "...", "price": "$24.99", "ratings": "1,234" }
+      {
+        "line": "Matcha powder",            // product line; products sharing a line are grouped
+        "asin": "B0XXXXXXXX",
+        "title": "...",
+        "pack": "30g tin",                  // pack, size or format
+        "price": "$24.99",
+        "rating": "4.6",
+        "ratings": "1,234",
+        "bought": "1K+"                     // bucket as shown, never summed; omit if not shown
+      }
     ]
   },
 
@@ -44,7 +54,7 @@ rather than guessing.
 
   "opportunities": [
     {
-      "type": "gap",                    // "gap" (mode 1) | "expand" (mode 2)
+      "type": "gap",                    // "fix" (seller sells it, trails) | "gap" (seller does not sell it) | "expand" (new line)
       "name": "Single-serve stick packs",
       "what": "One sentence the seller can act on.",
       "demand": {
@@ -66,7 +76,10 @@ rather than guessing.
       "customer_signals": [
         "Short review quote or paraphrase, max 3"
       ],
-      "differentiation": "How this brand could stand out.",
+      "seller_asins": ["B0XXXXXXXX"],    // "fix" only: the seller's own listings being compared
+      "grows_from": "Matcha powder",     // "expand" only: the catalog line it grows from
+      "catalog_checked": "Catalog rows 1 to 6; no stick format",   // "gap" and "expand": what was checked in the catalog
+      "differentiation": "How this brand could stand out. For a fix: what to change.",
       "risks": "What could make it hard (ads, price war, sourcing).",
       "example_listings": [
         { "asin": "B0YYYYYYYY", "brand": "Competitor A", "price": "$18.99" }
@@ -78,9 +91,23 @@ rather than guessing.
     "pages_read": 46,
     "searches": ["matcha powder", "matcha latte mix"],
     "blocked": ["brand: Some Brand (captcha)"],
+    "not_captured": ["best sellers rank on 5 pages", "1 to 3 star reviews (logged out)"],
+    "minimums": [                       // optional: each floor against what was done
+      { "item": "Competitor product pages read in full", "floor": 8, "done": 9 }
+    ],
     "notes": "Optional note on anything partial."
   }
 }
 ```
+
+## The three opportunity types
+
+- `fix`: the seller already sells this and it trails the competitor version on price, ratings, traction or complaints. Always include `seller_asins`.
+- `gap`: the seller does not sell it and 2+ competitors do (or 1 with strong demand). Include `catalog_checked`.
+- `expand`: a new product line the same shoppers buy. Include `grows_from` and `catalog_checked`.
+
+Nothing in the catalog may appear as a `gap` or `expand`. `bought` values are
+floor buckets ("50+", "3K+"); never add or average them. A variation family
+is listed once per line with its shared ratings count.
 
 Comments above are for reference only. The real file must be valid JSON.
