@@ -77,6 +77,12 @@ new Claude chat and paste:
 Claude browses Amazon in your own Chrome and writes the report in the chat.
 This version is lighter (fewer pages read) and has no HTML report.
 
+**Want it saved to your Claude account?** Download
+[`chrome-edition/next-sku.zip`](chrome-edition/next-sku.zip), then in Claude
+go to **Settings > Capabilities > Skills > Upload skill** and pick the zip.
+After that, just say "Run Next SKU on ASIN B0XXXXXXXX" in any chat with the
+Chrome extension on.
+
 ## Use it
 
 Just ask Claude in plain words:
@@ -111,6 +117,7 @@ skills/next-sku/
   scripts/nextsku.py     browser helper (product, search, brand, autocomplete)
   scripts/render_report.py
   reference/findings-schema.md
+chrome-edition/          no-install skill for Claude accounts (+ .zip)
 examples/                sample report
 ```
 
