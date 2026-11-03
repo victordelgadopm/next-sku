@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Next SKU report: Sample Brand</title>
+<style>
+:root {
+  --bg:#F5F3EE; --paper:#FFFFFF; --ink:#16181D; --muted:#5D6270; --line:#E3E0D8;
+  --accent:#0F6E5A; --accent-soft:#E2F2EC; --amber:#B86A00; --amber-soft:#FCEFD9;
+  --red:#A23B2A; --red-soft:#F8E3DE; --chip:#F0EEE8;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111317; --paper:#1A1D23; --ink:#ECEDEF; --muted:#A2A7B3; --line:#2C3038;
+    --accent:#4CC9A4; --accent-soft:#163029; --amber:#F2B45A; --amber-soft:#33281A; --red:#F08B78; --red-soft:#3A221E; --chip:#242830; }
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif; }
+.wrap { max-width:1080px; margin:0 auto; padding:32px 20px 64px; }
+a { color:var(--accent); }
+.top { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:28px; }
+.logo { font-weight:800; letter-spacing:-.02em; font-size:20px; }
+.logo span { color:var(--accent); }
+.meta { color:var(--muted); font-size:13px; text-align:right; }
+.hero { background:var(--paper); border:1px solid var(--line); border-radius:18px; padding:28px; display:grid; grid-template-columns:1.4fr 1fr; gap:28px; }
+.hero h1 { font-size:30px; line-height:1.15; margin:0 0 12px; letter-spacing:-.02em; }
+.hero p.sum { color:var(--muted); margin:0 0 16px; font-size:17px; }
+.picks { margin:0; padding-left:20px; } .picks li { margin:4px 0; font-weight:600; }
+.seed { background:var(--bg); border-radius:14px; padding:18px; font-size:14px; }
+.seed .lbl { text-transform:uppercase; letter-spacing:.08em; font-size:11px; color:var(--muted); font-weight:700; }
+.seed .t { font-weight:650; margin:6px 0 10px; }
+.kv { display:grid; grid-template-columns:auto 1fr; gap:4px 12px; } .kv dt { color:var(--muted); } .kv dd { margin:0; }
+nav.jump { display:flex; gap:10px; margin:22px 0 6px; flex-wrap:wrap; }
+nav.jump a { text-decoration:none; background:var(--paper); border:1px solid var(--line); padding:7px 14px; border-radius:999px; color:var(--ink); font-size:14px; }
+section { margin-top:40px; }
+.sec-head h2 { font-size:26px; margin:2px 0 4px; letter-spacing:-.01em; }
+.sec-head p { color:var(--muted); margin:0 0 18px; }
+.kicker { font-size:12px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); }
+.opp { background:var(--paper); border:1px solid var(--line); border-radius:16px; padding:22px; margin-bottom:16px; }
+.opp-head { display:grid; grid-template-columns:auto 1fr auto; gap:16px; align-items:start; }
+.opp-num { font-size:28px; font-weight:800; color:var(--accent); line-height:1; min-width:44px; }
+.opp h3 { margin:0; font-size:20px; }
+.opp-what { margin:4px 0 0; color:var(--muted); }
+.opp-badges { display:flex; flex-direction:column; gap:6px; align-items:flex-end; }
+.badge { font-size:12px; font-weight:700; padding:4px 10px; border-radius:999px; white-space:nowrap; background:var(--chip); }
+.d-strong, .f-strong { background:var(--accent-soft); color:var(--accent); }
+.d-moderate, .f-moderate { background:var(--amber-soft); color:var(--amber); }
+.d-thin, .f-stretch { background:var(--red-soft); color:var(--red); }
+.sigs { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:18px 0 6px; }
+.sig { background:var(--bg); border-radius:10px; padding:10px 12px; }
+.sig-k { font-size:11px; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); font-weight:700; }
+.sig-v { font-size:14px; font-weight:600; margin-top:2px; }
+.opp-body { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:8px; }
+.opp h4 { font-size:13px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:14px 0 6px; }
+.opp ul { margin:0; padding-left:18px; } .opp li { margin:3px 0; } .opp p { margin:0; }
+blockquote { margin:6px 0; padding:8px 12px; border-left:3px solid var(--amber); background:var(--amber-soft); border-radius:0 8px 8px 0; font-style:italic; font-size:15px; }
+.chips { display:flex; flex-wrap:wrap; gap:6px; }
+.chip { background:var(--chip); border-radius:999px; padding:3px 10px; font-size:13px; }
+.examples { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:16px; padding-top:14px; border-top:1px dashed var(--line); }
+.ex-label { font-size:12px; color:var(--muted); font-weight:700; margin-right:4px; }
+.asin { font-size:13px; text-decoration:none; border:1px solid var(--line); border-radius:8px; padding:4px 9px; color:var(--ink); }
+.asin-id { font-family:ui-monospace,Menlo,Consolas,monospace; color:var(--accent); margin-right:6px; }
+table { width:100%; border-collapse:collapse; background:var(--paper); border:1px solid var(--line); border-radius:14px; overflow:hidden; font-size:14px; }
+th, td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+th { font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); background:var(--bg); }
+.muted { color:var(--muted); font-size:13px; }
+.tablewrap { overflow-x:auto; }
+.empty { color:var(--muted); font-style:italic; }
+footer { margin-top:40px; color:var(--muted); font-size:13px; border-top:1px solid var(--line); padding-top:16px; }
+@media (max-width:760px) {
+  .hero, .opp-body { grid-template-columns:1fr; }
+  .opp-head { grid-template-columns:auto 1fr; } .opp-badges { grid-column:1 / -1; flex-direction:row; align-items:center; }
+  .hero h1 { font-size:24px; }
+}
+</style></head><body><div class="wrap">
+<div class="top"><div class="logo">Next <span>SKU</span></div>
+<div class="meta">Sample report (illustrative data)<br>3 opportunities</div></div>
+
+<div class="hero">
+  <div>
+    <h1>Illustrative sample: two gaps to fill and one line to grow into</h1>
+    <p class="sum">This sample uses made-up brands and ASINs to show the report format. In a real run every number comes from public Amazon pages read during that run. Here, a matcha brand sells one ceremonial powder in two sizes while its closest competitors sell sticks, latte mixes and starter kits.</p>
+    <div class="kicker">Start here</div><ol class="picks"><li>Single-serve stick packs: 4 of 5 competitors sell them</li><li>Unsweetened latte mix: shoppers ask for it in reviews</li><li>Matcha starter kit: whisk and bowl show up in bought-together on every top listing</li></ol>
+  </div>
+  <div class="seed">
+    <div class="lbl">Starting product</div>
+    <div class="t"><a href="https://www.amazon.com/dp/B0SAMPLE01" target="_blank" rel="noopener">Sample Brand Ceremonial Matcha Powder, 30g</a></div>
+    <dl class="kv">
+      <dt>Brand</dt><dd>Sample Brand</dd>
+      <dt>ASIN</dt><dd>B0SAMPLE01</dd>
+      <dt>Price</dt><dd>$24.99</dd>
+      <dt>Rating</dt><dd>4.6 out of 5 stars</dd>
+      <dt>Category</dt><dd>Grocery &gt; Beverages &gt; Tea &gt; Matcha</dd>
+      <dt>Rank</dt><dd>#58 in Matcha</dd>
+    </dl>
+  </div>
+</div>
+
+<nav class="jump">
+  <a href="#gaps">Gaps to fill (2)</a>
+  <a href="#expand">Products to expand into (1)</a>
+  <a href="#landscape">Competitive landscape</a>
+  <a href="#method">How this was built</a>
+</nav>
+
+<section id="gaps"><div class="sec-head"><span class="kicker">Mode 1</span><h2>Gaps to fill</h2>
+            <p>Products, sizes, packs and price points your competitors sell that your catalog doesn't.</p></div>
+            
+<article class="opp">
+  <header class="opp-head">
+    <div class="opp-num">01</div>
+    <div class="opp-titles">
+      <h3>Single-serve stick packs</h3>
+      <p class="opp-what">Launch a 30-count box of 1g ceremonial sticks for on-the-go shoppers.</p>
+    </div>
+    <div class="opp-badges">
+      <span class="badge d-strong">Demand: Strong</span>
+      <span class="badge f-strong">Strong fit</span>
+    </div>
+  </header>
+  <div class="sigs"><div class="sig"><div class="sig-k">Shoppers search it</div><div class="sig-v">matcha sticks, matcha packets single serve</div></div><div class="sig"><div class="sig-k">Search results</div><div class="sig-v">over 1,000 results</div></div><div class="sig"><div class="sig-k">Top sellers move</div><div class="sig-v">3 of top 10 show 1K+ bought</div></div><div class="sig"><div class="sig-k">Paid competition</div><div class="sig-v">5 of 22 sponsored</div></div><div class="sig"><div class="sig-k">Price band</div><div class="sig-v">$14 to $26</div></div></div>
+  <div class="opp-body">
+    <div>
+      <h4>What the data shows</h4>
+      <ul class=""><li>4 of 5 competitors sell a stick format</li><li>No stick listing from the seller</li></ul>
+      <h4>Who already sells it</h4><p class="chips"><span class="chip">Leafline</span><span class="chip">Kyoto Hill</span><span class="chip">Daybrew</span></p>
+    </div>
+    <div>
+      <h4>What customers say</h4><blockquote>Wish this came in travel packets</blockquote>
+      <h4>How you could stand out</h4><p>Ceremonial grade sticks are rare; most are culinary grade.</p>
+      <h4>Watch out for</h4><p>Packaging cost per serving is higher.</p>
+    </div>
+  </div>
+  <div class="examples"><span class="ex-label">Listings to study</span><a class="asin" href="https://www.amazon.com/dp/B0SAMPLE11" target="_blank" rel="noopener"><span class="asin-id">B0SAMPLE11</span>Leafline · $18.99</a></div>
+</article>
+<article class="opp">
+  <header class="opp-head">
+    <div class="opp-num">02</div>
+    <div class="opp-titles">
+      <h3>Unsweetened latte mix</h3>
+      <p class="opp-what">Add a ready latte blend with no added sugar.</p>
+    </div>
+    <div class="opp-badges">
+      <span class="badge d-moderate">Demand: Moderate</span>
+      <span class="badge f-strong">Strong fit</span>
+    </div>
+  </header>
+  <div class="sigs"><div class="sig"><div class="sig-k">Shoppers search it</div><div class="sig-v">matcha latte mix unsweetened</div></div><div class="sig"><div class="sig-k">Search results</div><div class="sig-v">over 400 results</div></div><div class="sig"><div class="sig-k">Review depth</div><div class="sig-v">Top 3: 5,100 / 1,900 / 620 ratings</div></div><div class="sig"><div class="sig-k">Price band</div><div class="sig-v">$15 to $24</div></div></div>
+  <div class="opp-body">
+    <div>
+      <h4>What the data shows</h4>
+      <ul class=""><li>Most latte mixes on page one list sugar first</li></ul>
+      <h4>Who already sells it</h4><p class="chips"><span class="chip">Leafline</span><span class="chip">Daybrew</span></p>
+    </div>
+    <div>
+      <h4>What customers say</h4><blockquote>Too sweet, I want just matcha and milk powder</blockquote>
+      <h4>How you could stand out</h4><p>Own the clean label angle.</p>
+      <h4>Watch out for</h4><p>Crowded with sweetened mixes.</p>
+    </div>
+  </div>
+  
+</article></section><section id="expand"><div class="sec-head"><span class="kicker">Mode 2</span><h2>Products to expand into</h2>
+            <p>Nearby products your customers already buy, search for or ask for, where your brand could grow.</p></div>
+            
+<article class="opp">
+  <header class="opp-head">
+    <div class="opp-num">03</div>
+    <div class="opp-titles">
+      <h3>Matcha starter kit</h3>
+      <p class="opp-what">Bundle powder, bamboo whisk and bowl as one gift ready listing.</p>
+    </div>
+    <div class="opp-badges">
+      <span class="badge d-strong">Demand: Strong</span>
+      <span class="badge f-moderate">Moderate fit</span>
+    </div>
+  </header>
+  <div class="sigs"><div class="sig"><div class="sig-k">Shoppers search it</div><div class="sig-v">matcha kit, matcha set with whisk</div></div><div class="sig"><div class="sig-k">Top sellers move</div><div class="sig-v">2 of top 10 show 1K+ bought</div></div><div class="sig"><div class="sig-k">Price band</div><div class="sig-v">$35 to $60</div></div></div>
+  <div class="opp-body">
+    <div>
+      <h4>What the data shows</h4>
+      <ul class=""><li>Whisk appears in bought-together on 5 of 6 top listings</li></ul>
+      <h4>Who already sells it</h4><p class="chips"><span class="chip">Kyoto Hill</span></p>
+    </div>
+    <div>
+      
+      <h4>How you could stand out</h4><p>Lead with the powder quality competitors&#x27; kits skimp on.</p>
+      <h4>Watch out for</h4><p>Fragile items raise return rates.</p>
+    </div>
+  </div>
+  
+</article></section>
+
+<section id="landscape"><div class="sec-head"><span class="kicker">Context</span><h2>Competitive landscape</h2>
+<p>Sample data. A real run lists the brand&#x27;s listings found on Amazon.</p></div>
+<div class="tablewrap"><table><thead><tr><th>Brand</th><th>Tier</th><th>Products seen</th><th>Price range</th><th>Where they win</th></tr></thead>
+<tbody><tr><td><strong>Leafline</strong><div class=muted>Ranked in 6 of 7 searches</div></td><td>Primary</td><td>16</td><td>$12 to $42</td><td>Sticks, latte mixes, culinary grade</td></tr><tr><td><strong>Kyoto Hill</strong><div class=muted>Ranked in 5 of 7 searches</div></td><td>Primary</td><td>11</td><td>$18 to $65</td><td>Premium tier, gift kits</td></tr><tr><td><strong>Daybrew</strong><div class=muted>Ranked in 2 searches</div></td><td>Secondary</td><td>7</td><td>$9 to $22</td><td>Budget tier, multi-packs</td></tr></tbody></table></div>
+<h3 style="margin-top:28px">Your catalog as seen on Amazon</h3><div class="tablewrap"><table><thead><tr><th>ASIN</th><th>Product</th><th>Price</th><th>Ratings</th></tr></thead><tbody><tr><td><a href="https://www.amazon.com/dp/B0SAMPLE01" target="_blank" rel="noopener">B0SAMPLE01</a></td><td>Ceremonial Matcha Powder, 30g</td><td>$24.99</td><td>2,140</td></tr><tr><td><a href="https://www.amazon.com/dp/B0SAMPLE02" target="_blank" rel="noopener">B0SAMPLE02</a></td><td>Ceremonial Matcha Powder, 100g</td><td>$54.99</td><td>640</td></tr></tbody></table></div>
+</section>
+
+<footer id="method">
+<strong>How this was built.</strong> Next SKU read public Amazon.com pages (search results, product pages, autocomplete and visible reviews) without logging in,
+then compared your catalog with the brands that compete for the same shoppers.
+Demand signals such as autocomplete, "bought in past month", review counts and best sellers rank are public proxies, not sales data.
+Margins and sourcing costs are not included. The report lays out the evidence; you make the call.
+
+
+<br>Illustrative sample only. Brands, ASINs and numbers are made up.
+</footer>
+</div></body></html>
